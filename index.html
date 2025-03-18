@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Koinos World</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+    <!-- Include Axios from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Hello Koinos World</h1>
+    <p>Balance for @helloworld:</p>
+    <div id="balance">Loading...</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const balanceElement = document.getElementById('balance')
+
+            const tokenContract = '15DJN4a8SgrbGhhGksSBASiSYjGnMU8dGL' //Koin contract address
+            const account = '@helloworld' //Nickname (unique human readable identifier)
+
+            //REST APU URL token contract (balance request)
+            const apiUrl = `https://api.koinos.io/v1/token/${tokenContract}/balance/${account}`
+            
+            // Using Axios for a more compact request
+            axios.get(apiUrl)
+                .then(response => {
+                    balanceElement.textContent = response.data.value + ' KOIN'
+                    balanceElement.className = ''
+                })
+                .catch(error => {
+                    balanceElement.textContent = 'Error fetching balance'
+                    balanceElement.className = 'error'
+                    console.error('Error:', error)
+                });
+        })
+    </script>
+</body>
+</html>
